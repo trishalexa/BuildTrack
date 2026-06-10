@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BuildTrack — Sign Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/login.css" />
+</head>
+<body class="login-page">
+  <div class="login-shell">
+    <div class="login-left">
+      <div class="login-left__content">
+        <div class="login-logo">
+          <div class="login-logo__icon">🏗️</div>
+          <div>
+            <div class="login-logo__name">BuildTrack</div>
+            <div class="login-logo__sub">Infrastructure Monitoring System</div>
+          </div>
+        </div>
+
+        <div class="login-headline">
+          <h1>Join BuildTrack today.</h1>
+          <p>Register your LGU account to receive project updates, alerts, and progress tracking in a secure dashboard.</p>
+        </div>
+
+        <ul class="login-features">
+          <li class="login-feature"><span class="login-feature__icon">✅</span><span>Instant access to current project status</span></li>
+          <li class="login-feature"><span class="login-feature__icon">📍</span><span>Geotagged project locations</span></li>
+          <li class="login-feature"><span class="login-feature__icon">🚨</span><span>Alert notifications for critical issues</span></li>
+          <li class="login-feature"><span class="login-feature__icon">📄</span><span>Easy report generation for LGU teams</span></li>
+        </ul>
+      </div>
+      <div class="login-left__footer">
+        <span>Pagadian City LGU</span>
+        <span class="sep">·</span>
+        <span>BSCS Capstone Project 2025–2026</span>
+      </div>
+    </div>
+
+    <div class="login-right">
+      <div class="login-form-card">
+        <div class="login-form-header">
+          <h2>Create a BuildTrack account</h2>
+          <p>Fill in the details below to register your access.</p>
+        </div>
+
+        <form class="login-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="fullName">Full name</label>
+            <input class="form-input" type="text" id="fullName" name="fullName" placeholder="e.g. Maria Lopez" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email address</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="name@example.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="role">Select role</label>
+            <select class="form-select" id="role" name="role">
+              <option value="">Choose role</option>
+              <option>LGU Project Engineer</option>
+              <option>Local Chief Executive</option>
+              <option>Planning & Development Officer</option>
+              <option>System Administrator</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="org">Organization / Office</label>
+            <input class="form-input" type="text" id="org" name="org" placeholder="e.g. Municipal Engineering Office" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="password">Choose password</label>
+            <input class="form-input" type="password" id="password" name="password" placeholder="Minimum 8 characters" />
+          </div>
+          <button type="submit" class="btn btn--primary w-full login-submit">Create account</button>
+        </form>
+
+        <div class="login-divider"><span>Already have an account?</span></div>
+        <a href="../buildtrack/index.html" class="btn btn--ghost w-full">Sign in instead</a>
+      </div>
+
+      <div class="login-right__footer">
+        <span>© 2026 BuildTrack &nbsp;·&nbsp; WMSU-PC College of Computing Studies</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

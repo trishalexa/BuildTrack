@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BuildTrack — Projects</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/sidebar.css" />
+  <link rel="stylesheet" href="../css/project-list.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ══════════════════ SIDEBAR ══════════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="sidebar__logo">
+      <div class="sidebar__logo-icon">🏗️</div>
+      <div class="sidebar__logo-text">
+        <span class="sidebar__logo-name">BuildTrack</span>
+        <span class="sidebar__logo-sub">LGU Monitoring System</span>
+      </div>
+    </a>
+    <nav class="sidebar__nav">
+      <div class="sidebar__section-label">Main</div>
+      <a href="dashboard.html"     class="sidebar__item" data-page="dashboard.html">
+        <span class="sidebar__item-icon">🏠</span>
+        <span class="sidebar__item-label">Dashboard</span>
+      </a>
+      <a href="project-list.html"  class="sidebar__item is-active" data-page="project-list.html">
+        <span class="sidebar__item-icon">📋</span>
+        <span class="sidebar__item-label">Projects</span>
+      </a>
+      <a href="early-warning.html" class="sidebar__item" data-page="early-warning.html">
+        <span class="sidebar__item-icon">🚨</span>
+        <span class="sidebar__item-label">Early Warnings</span>
+        <span class="sidebar__badge">7</span>
+      </a>
+      <a href="map-view.html"      class="sidebar__item" data-page="map-view.html">
+        <span class="sidebar__item-icon">📍</span>
+        <span class="sidebar__item-label">Map View</span>
+      </a>
+      <a href="reports.html"       class="sidebar__item" data-page="reports.html">
+        <span class="sidebar__item-icon">📊</span>
+        <span class="sidebar__item-label">Reports & Analytics</span>
+      </a>
+      <div class="sidebar__section-label" style="margin-top:var(--space-4);">Admin</div>
+      <a href="user-management.html" class="sidebar__item" data-page="user-management.html">
+        <span class="sidebar__item-icon">👤</span>
+        <span class="sidebar__item-label">User Management</span>
+      </a>
+      <div class="sidebar__section-label" style="margin-top:var(--space-4);">Public</div>
+      <a href="public-portal.html" class="sidebar__item" target="_blank">
+        <span class="sidebar__item-icon">🌐</span>
+        <span class="sidebar__item-label">Public Portal</span>
+      </a>
+    </nav>
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <div class="sidebar__avatar" id="sidebarAvatar">D</div>
+        <div class="sidebar__user-info">
+          <div class="sidebar__user-name" id="sidebarUserName">Demo User</div>
+          <div class="sidebar__user-role" id="sidebarUserRole">LGU Engineer</div>
+        </div>
+        <a href="../buildtrack/index.html" class="sidebar__logout" title="Sign out">⏏️</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ══════════════════ MAIN CONTENT ══════════════════ -->
+  <div class="main-content">
+
+    <!-- Top Navbar -->
+    <header class="topnav">
+      <button class="topnav__menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      <div class="topnav__search">
+        <span class="topnav__search-icon">🔍</span>
+        <input type="text" placeholder="Search projects…" id="globalSearch" />
+      </div>
+      <div class="topnav__actions">
+        <a href="early-warning.html" class="topnav__notif" title="Active alerts">
+          🔔<span class="topnav__notif-dot"></span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Page Body -->
+    <main class="page-body">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1>Projects</h1>
+          </div>
+          <button class="btn btn--primary role-add-project" id="addProjectBtn">+ Add New Project</button>
+        </div>
+      </div>
+
+      <!-- ── Stats Cards ── -->
+      <div class="pl-stats-grid mb-6">
+        <div class="stat-card stat-card--alt">
+          <div class="stat-card__icon stat-card__icon--blue">📋</div>
+          <div>
+            <div class="stat-card__value" id="statTotal">24</div>
+            <div class="stat-card__label">Total Projects</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card--alt">
+          <div class="stat-card__icon stat-card__icon--green">✅</div>
+          <div>
+            <div class="stat-card__value" id="statOnTrack">14</div>
+            <div class="stat-card__label">On-Track</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card--alt">
+          <div class="stat-card__icon stat-card__icon--yellow">⚠️</div>
+          <div>
+            <div class="stat-card__value" id="statAtRisk">6</div>
+            <div class="stat-card__label">At Risk</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card--alt">
+          <div class="stat-card__icon stat-card__icon--red">🚨</div>
+          <div>
+            <div class="stat-card__value" id="statDelayed">4</div>
+            <div class="stat-card__label">Delayed</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card--alt">
+          <div class="stat-card__icon stat-card__icon--info">🏁</div>
+          <div>
+            <div class="stat-card__value" id="statCompleted">0</div>
+            <div class="stat-card__label">Completed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Filter Bar ── -->
+      <div class="card pl-filter-bar mb-4">
+        <div class="pl-filter-bar__left">
+          <!-- Search -->
+          <div class="pl-search-wrap">
+            <span class="pl-search-icon">🔍</span>
+            <input
+              type="text"
+              class="pl-search-input"
+              id="projectSearch"
+              placeholder="Search by name, contractor, or barangay…"
+            />
+          </div>
+        </div>
+        <div class="pl-filter-bar__right">
+          <!-- Status filter -->
+          <select class="filter-select" id="filterStatus">
+            <option value="">All Statuses</option>
+            <option value="On-Track">On-Track</option>
+            <option value="At Risk">At Risk</option>
+            <option value="Delayed">Delayed</option>
+            <option value="Completed">Completed</option>
+          </select>
+          <!-- Type filter -->
+          <select class="filter-select" id="filterType">
+            <option value="">All Types</option>
+            <option value="road">Road</option>
+            <option value="bridge">Bridge</option>
+            <option value="building">Building</option>
+            <option value="flood">Flood Control</option>
+            <option value="drainage">Drainage</option>
+            <option value="other">Other</option>
+          </select>
+          <!-- Sort -->
+          <select class="filter-select" id="filterSort">
+            <option value="id-asc">ID ↑</option>
+            <option value="id-desc">ID ↓</option>
+            <option value="progress-asc">Progress ↑</option>
+            <option value="progress-desc">Progress ↓</option>
+            <option value="target-asc">Target Date ↑</option>
+            <option value="target-desc">Target Date ↓</option>
+          </select>
+          <!-- Clear -->
+          <button class="btn btn--ghost btn--sm" id="clearFilters">✕ Clear</button>
+        </div>
+      </div>
+
+      <!-- ── Results count ── -->
+      <div class="pl-results-row mb-3">
+        <span class="pl-results-count" id="resultsCount">Showing 8 projects</span>
+        <div class="pl-view-toggle">
+          <button class="view-btn is-active" id="viewTable" title="Table view">☰</button>
+          <button class="view-btn" id="viewCards" title="Card view">⊞</button>
+        </div>
+      </div>
+
+      <!-- ── TABLE VIEW ── -->
+      <div id="tableView">
+        <div class="card" style="padding:0; overflow:hidden;">
+          <div class="table-wrapper">
+            <table class="table" id="projectsTable">
+              <thead>
+                <tr>
+                  <th class="sortable" data-col="id">ID <span class="sort-icon">↕</span></th>
+                  <th>Project Title</th>
+                  <th>Type</th>
+                  <th>Contractor</th>
+                  <th class="sortable" data-col="budget">Budget (₱)</th>
+                  <th class="sortable" data-col="physical">Physical %</th>
+                  <th class="sortable" data-col="financial">Financial %</th>
+                  <th class="sortable" data-col="target">Target Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="projectsTableBody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty state -->
+          <div class="empty-state hidden" id="tableEmpty">
+            <span class="empty-state__icon">🔍</span>
+            <span class="empty-state__title">No projects found</span>
+            <span class="empty-state__desc">Try adjusting your search or filters.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CARD VIEW ── -->
+      <div id="cardView" class="hidden">
+        <div class="project-cards-grid" id="projectCardsGrid">
+          <!-- Populated by JS -->
+        </div>
+        <div class="empty-state hidden" id="cardsEmpty">
+          <span class="empty-state__icon">🔍</span>
+          <span class="empty-state__title">No projects found</span>
+          <span class="empty-state__desc">Try adjusting your search or filters.</span>
+        </div>
+      </div>
+
+      <!-- ── Pagination ── -->
+      <div class="pl-pagination" id="pagination">
+        <button class="btn btn--ghost btn--sm" id="prevPage">← Prev</button>
+        <div class="pagination-pages" id="paginationPages"></div>
+        <button class="btn btn--ghost btn--sm" id="nextPage">Next →</button>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ADD / EDIT PROJECT MODAL
+     ══════════════════════════════════════ -->
+<div class="modal-overlay role-add-project" id="projectModal">
+  <div class="modal modal--wide">
+    <div class="modal__header">
+      <h3 class="modal__title" id="modalTitle">Add New Project</h3>
+      <button class="modal__close" data-close-modal>✕</button>
+    </div>
+
+    <form id="projectForm" novalidate>
+      <div class="modal-form-grid">
+
+        <!-- Project Title -->
+        <div class="form-group" style="grid-column: 1/-1;">
+          <label class="form-label" for="fTitle">Project Title <span class="required">*</span></label>
+          <input class="form-input" type="text" id="fTitle" placeholder="e.g. Brgy. Dao Road Concreting Phase 2" />
+          <span class="form-error hidden" id="fTitleErr">Title is required.</span>
+        </div>
+
+        <!-- Type -->
+        <div class="form-group">
+          <label class="form-label" for="fType">Project Type <span class="required">*</span></label>
+          <select class="form-select" id="fType">
+            <option value="">Select type</option>
+            <option value="road">Road</option>
+            <option value="bridge">Bridge</option>
+            <option value="building">Building</option>
+            <option value="flood">Flood Control</option>
+            <option value="drainage">Drainage</option>
+            <option value="other">Other</option>
+          </select>
+          <span class="form-error hidden" id="fTypeErr">Type is required.</span>
+        </div>
+
+        <!-- Location -->
+        <div class="form-group">
+          <label class="form-label" for="fLocation">Location / Barangay <span class="required">*</span></label>
+          <input class="form-input" type="text" id="fLocation" placeholder="e.g. Brgy. Dao, Pagadian City" />
+          <span class="form-error hidden" id="fLocationErr">Location is required.</span>
+        </div>
+
+        <!-- Contractor -->
+        <div class="form-group">
+          <label class="form-label" for="fContractor">Contractor <span class="required">*</span></label>
+          <input class="form-input" type="text" id="fContractor" placeholder="e.g. JRC Builders Inc." />
+          <span class="form-error hidden" id="fContractorErr">Contractor is required.</span>
+        </div>
+
+        <!-- Budget -->
+        <div class="form-group">
+          <label class="form-label" for="fBudget">Approved Budget (₱) <span class="required">*</span></label>
+          <input class="form-input" type="number" id="fBudget" placeholder="e.g. 2500000" min="0" />
+          <span class="form-error hidden" id="fBudgetErr">A valid budget amount is required.</span>
+        </div>
+
+        <!-- Start Date -->
+        <div class="form-group">
+          <label class="form-label" for="fStart">Start Date <span class="required">*</span></label>
+          <input class="form-input" type="date" id="fStart" />
+          <span class="form-error hidden" id="fStartErr">Start date is required.</span>
+        </div>
+
+        <!-- Target Date -->
+        <div class="form-group">
+          <label class="form-label" for="fTarget">Target Completion Date <span class="required">*</span></label>
+          <input class="form-input" type="date" id="fTarget" />
+          <span class="form-error hidden" id="fTargetErr">Target date is required.</span>
+        </div>
+
+        <!-- Physical Progress -->
+        <div class="form-group">
+          <label class="form-label" for="fPhysical">Physical Accomplishment (%)</label>
+          <input class="form-input" type="number" id="fPhysical" placeholder="0" min="0" max="100" value="0" />
+        </div>
+
+        <!-- Financial Progress -->
+        <div class="form-group">
+          <label class="form-label" for="fFinancial">Financial Accomplishment (%)</label>
+          <input class="form-input" type="number" id="fFinancial" placeholder="0" min="0" max="100" value="0" />
+        </div>
+
+        <!-- Implementing Office -->
+        <div class="form-group" style="grid-column: 1/-1;">
+          <label class="form-label" for="fOffice">Implementing Office</label>
+          <input class="form-input" type="text" id="fOffice" placeholder="e.g. Municipal Engineering Office" />
+        </div>
+
+      </div>
+    </form>
+
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-close-modal>Cancel</button>
+      <button class="btn btn--primary" id="saveProjectBtn">Save Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     DELETE CONFIRM MODAL
+     ══════════════════════════════════════ -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <div class="modal__header">
+      <h3 class="modal__title">Delete Project</h3>
+      <button class="modal__close" data-close-modal>✕</button>
+    </div>
+    <p style="color:var(--color-text-muted); font-size:var(--text-sm);">
+      Are you sure you want to delete <strong id="deleteProjectName"></strong>?
+      This action cannot be undone.
+    </p>
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-close-modal>Cancel</button>
+      <button class="btn btn--danger" id="confirmDeleteBtn">Delete Project</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/global.js"></script>
+<script src="../js/project-list.js"></script>
+</body>
+</html>

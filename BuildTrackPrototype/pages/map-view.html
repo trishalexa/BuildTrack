@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BuildTrack — Map View</title>
+
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/sidebar.css" />
+  <link rel="stylesheet" href="../css/map-view.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- sidebar (reuse same markup pattern) -->
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="sidebar__logo">
+      <div class="sidebar__logo-icon">🏗️</div>
+      <div class="sidebar__logo-text">
+        <span class="sidebar__logo-name">BuildTrack</span>
+        <span class="sidebar__logo-sub">LGU Monitoring System</span>
+      </div>
+    </a>
+    <nav class="sidebar__nav">
+      <div class="sidebar__section-label">Main</div>
+      <a href="dashboard.html" class="sidebar__item" data-page="dashboard.html"><span class="sidebar__item-icon">🏠</span><span class="sidebar__item-label">Dashboard</span></a>
+      <a href="project-list.html" class="sidebar__item" data-page="project-list.html"><span class="sidebar__item-icon">📋</span><span class="sidebar__item-label">Projects</span></a>
+      <a href="early-warning.html" class="sidebar__item" data-page="early-warning.html"><span class="sidebar__item-icon">🚨</span><span class="sidebar__item-label">Early Warnings</span></a>
+      <a href="map-view.html" class="sidebar__item is-active" data-page="map-view.html"><span class="sidebar__item-icon">📍</span><span class="sidebar__item-label">Map View</span></a>
+    </nav>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <header class="topnav">
+      <button class="topnav__menu-btn" id="menuBtn">☰</button>
+      <div class="topnav__search"><span class="topnav__search-icon">🔍</span><input placeholder="Search projects…" /></div>
+      <div class="topnav__actions"></div>
+    </header>
+
+    <main class="page-body">
+      <div class="page-header">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1>Map View</h1>
+            <p>Visualize projects geographically. Click pins to inspect details.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mv-grid">
+        <section class="mv-map-panel card">
+          <div id="map" class="map-container" aria-label="Map">
+            <!-- Leaflet map renders here -->
+          </div>
+        </section>
+
+        <aside class="mv-sidebar card">
+          <div class="card-header">
+            <h2 class="card-title">Projects on Map</h2>
+            <p class="text-muted">Click a project to highlight it on the map.</p>
+          </div>
+          <div id="projectList" class="mv-project-list">
+            <!-- Project cards populated by JS -->
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/global.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="../js/project-list.js"></script>
+<script src="../js/map-view.js"></script>
+</body>
+</html>

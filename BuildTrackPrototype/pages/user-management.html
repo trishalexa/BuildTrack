@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BuildTrack — User Management</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/sidebar.css" />
+  <link rel="stylesheet" href="../css/user-management.css" />
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="sidebar__logo">
+      <div class="sidebar__logo-icon">🏗️</div>
+      <div class="sidebar__logo-text">
+        <span class="sidebar__logo-name">BuildTrack</span>
+        <span class="sidebar__logo-sub">LGU Monitoring System</span>
+      </div>
+    </a>
+    <nav class="sidebar__nav">
+      <div class="sidebar__section-label">Main</div>
+      <a href="dashboard.html" class="sidebar__item" data-page="dashboard.html"><span class="sidebar__item-icon">🏠</span><span class="sidebar__item-label">Dashboard</span></a>
+      <a href="project-list.html" class="sidebar__item" data-page="project-list.html"><span class="sidebar__item-icon">📋</span><span class="sidebar__item-label">Projects</span></a>
+      <a href="early-warning.html" class="sidebar__item" data-page="early-warning.html"><span class="sidebar__item-icon">🚨</span><span class="sidebar__item-label">Early Warnings</span></a>
+      <a href="map-view.html" class="sidebar__item" data-page="map-view.html"><span class="sidebar__item-icon">📍</span><span class="sidebar__item-label">Map View</span></a>
+      <a href="reports.html" class="sidebar__item" data-page="reports.html"><span class="sidebar__item-icon">📑</span><span class="sidebar__item-label">Reports</span></a>
+      <a href="user-management.html" class="sidebar__item is-active" data-page="user-management.html"><span class="sidebar__item-icon">👤</span><span class="sidebar__item-label">User Management</span></a>
+    </nav>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="main-content">
+    <header class="topnav">
+      <button class="topnav__menu-btn" id="menuBtn">☰</button>
+      <div class="topnav__search"><span class="topnav__search-icon">🔍</span><input placeholder="Search users…" /></div>
+      <div class="topnav__actions"></div>
+    </header>
+
+    <main class="page-body">
+      <div class="page-header">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1>User Management</h1>
+            <p>Manage system users, assign roles, and control access permissions.</p>
+          </div>
+          <button class="btn btn--primary" id="addUserBtn">Add New User</button>
+        </div>
+      </div>
+
+      <div class="card user-management-card">
+        <div class="card-header">
+          <h2 class="card-title">User Accounts</h2>
+          <p class="text-muted">Admin-only area for creating and editing user access.</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="table" id="usersTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Office</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="userModal">
+  <div class="modal">
+    <div class="modal__header">
+      <h3 class="modal__title" id="modalTitle">Add New User</h3>
+      <button class="modal__close" data-close-modal>✕</button>
+    </div>
+    <form id="userForm" class="user-form" novalidate>
+      <div class="form-group">
+        <label for="userName">Name</label>
+        <input id="userName" type="text" class="form-input" placeholder="e.g. Engr. Maria Lopez" required />
+      </div>
+      <div class="form-group">
+        <label for="userEmail">Email</label>
+        <input id="userEmail" type="email" class="form-input" placeholder="name@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="userRole">Role</label>
+        <select id="userRole" class="form-select" required>
+          <option value="">Select role</option>
+          <option>Admin</option>
+          <option>Engineer</option>
+          <option>Planning Officer</option>
+          <option>Executive</option>
+          <option>Read-Only</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="userOffice">Office</label>
+        <input id="userOffice" type="text" class="form-input" placeholder="e.g. Municipal Engineering Office" required />
+      </div>
+      <div class="form-group form-group-inline">
+        <label>Status</label>
+        <div class="toggle-group">
+          <label><input type="radio" name="userStatus" value="Active" checked /> Active</label>
+          <label><input type="radio" name="userStatus" value="Inactive" /> Inactive</label>
+        </div>
+      </div>
+      <input type="hidden" id="userId" />
+    </form>
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-close-modal>Cancel</button>
+      <button class="btn btn--primary" id="saveUserBtn">Save User</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/global.js"></script>
+<script src="../js/user-management.js"></script>
+</body>
+</html>

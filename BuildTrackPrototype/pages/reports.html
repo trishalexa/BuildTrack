@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BuildTrack — Reports & Analytics</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/sidebar.css" />
+  <link rel="stylesheet" href="../css/reports.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="sidebar__logo">
+      <div class="sidebar__logo-icon">🏗️</div>
+      <div class="sidebar__logo-text">
+        <span class="sidebar__logo-name">BuildTrack</span>
+        <span class="sidebar__logo-sub">LGU Monitoring System</span>
+      </div>
+    </a>
+    <nav class="sidebar__nav">
+      <div class="sidebar__section-label">Main</div>
+      <a href="dashboard.html" class="sidebar__item" data-page="dashboard.html"><span class="sidebar__item-icon">🏠</span><span class="sidebar__item-label">Dashboard</span></a>
+      <a href="project-list.html" class="sidebar__item" data-page="project-list.html"><span class="sidebar__item-icon">📋</span><span class="sidebar__item-label">Projects</span></a>
+      <a href="early-warning.html" class="sidebar__item" data-page="early-warning.html"><span class="sidebar__item-icon">🚨</span><span class="sidebar__item-label">Early Warnings</span></a>
+      <a href="map-view.html" class="sidebar__item" data-page="map-view.html"><span class="sidebar__item-icon">📍</span><span class="sidebar__item-label">Map View</span></a>
+      <a href="reports.html" class="sidebar__item is-active" data-page="reports.html"><span class="sidebar__item-icon">📑</span><span class="sidebar__item-label">Reports & Analytics</span></a>
+    </nav>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="main-content">
+    <header class="topnav">
+      <button class="topnav__menu-btn" id="menuBtn">☰</button>
+      <div class="topnav__search"><span class="topnav__search-icon">🔍</span><input placeholder="Search reports…" /></div>
+      <div class="topnav__actions"></div>
+    </header>
+
+    <main class="page-body">
+      <div class="page-header">
+        <h1>Reports & Analytics</h1>
+        <p>Comprehensive project monitoring, contractor performance rankings, and trend analysis across all projects.</p>
+      </div>
+
+      <div class="reports-summary-grid">
+        <div class="report-summary-card">
+          <p class="report-summary-card__label">Total Projects</p>
+          <p class="report-summary-card__value" id="totalProjectsCard">24</p>
+        </div>
+        <div class="report-summary-card">
+          <p class="report-summary-card__label">On-Track</p>
+          <p class="report-summary-card__value" id="onTrackCard" style="color:var(--color-success)">14</p>
+        </div>
+        <div class="report-summary-card">
+          <p class="report-summary-card__label">Overall Portfolio Health</p>
+          <p class="report-summary-card__value" id="portfolioHealthCard">68%</p>
+        </div>
+      </div>
+
+      <!-- ── ANALYTICS INSIGHTS SECTION ── -->
+      <div class="analytics-section mb-6">
+        <h2 class="section-title">Analytics & Insights</h2>
+
+        <!-- Contractor Rankings -->
+        <div class="contractor-rankings card mb-6">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Contractor Performance Rankings</h3>
+              <p class="text-muted">Ranked across all projects — on-track vs problematic performance</p>
+            </div>
+          </div>
+          <div class="contractor-rankings-grid">
+            <div class="contractor-ranking-col">
+              <h4 class="ranking-col-title on-track">✅ On-Track Contractors</h4>
+              <div class="contractor-list" id="onTrackContractors"></div>
+            </div>
+            <div class="contractor-ranking-col">
+              <h4 class="ranking-col-title problematic">⚠️ Problematic Contractors</h4>
+              <div class="contractor-list" id="problematicContractors"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Charts -->
+        <div class="analytics-charts-grid">
+          <div class="card chart-card chart-card--large">
+            <div class="card-header">
+              <span class="card-title">Physical vs. Financial Accomplishment (S-Curve)</span>
+            </div>
+            <div class="chart-wrap"><canvas id="analyticsSCurveChart"></canvas></div>
+          </div>
+          <div class="card chart-card chart-card--small">
+            <div class="card-header"><span class="card-title">Project Status Distribution</span></div>
+            <div class="chart-wrap chart-wrap--donut"><canvas id="analyticsStatusChart"></canvas></div>
+            <div class="donut-legend" id="analyticsDonutLegend"></div>
+          </div>
+        </div>
+
+        <div class="card chart-card mt-6">
+          <div class="card-header"><span class="card-title">Budget Utilization by Project Type</span></div>
+          <div class="chart-wrap"><canvas id="analyticsBudgetChart"></canvas></div>
+        </div>
+
+        <!-- Delay Analysis Charts -->
+        <h2 class="section-title mt-6">Delay Analysis & Risk Assessment</h2>
+        <div class="reports-charts">
+          <div class="chart-card card">
+            <h4>Delay Frequency (months)</h4>
+            <canvas id="trendChart"></canvas>
+          </div>
+          <div class="chart-card card">
+            <h4>Top 5 Delayed Projects</h4>
+            <canvas id="topDelayedChart"></canvas>
+          </div>
+          <div class="chart-card card">
+            <h4>Contractor Performance</h4>
+            <canvas id="contractorChart"></canvas>
+          </div>
+        </div>
+
+      <!-- Report Generation Section -->
+      <h2 class="section-title mt-6">Report Generation</h2>
+      <div class="reports-grid">
+          <h3 class="card-title">Report Types</h3>
+          <p class="report-left-note">Select a template and customize the date range, scope, and reporting office before generating a preview.</p>
+          <ul class="report-types" id="reportTypes">
+            <li data-type="mar" class="is-active">Monthly Accomplishment Report (DILG)</li>
+            <li data-type="swa">Statement of Work Accomplished (COA)</li>
+            <li data-type="pds">Project Delay Summary Report</li>
+            <li data-type="cpr">Contractor Performance Report</li>
+            <li data-type="bur">Budget Utilization Report</li>
+          </ul>
+        </aside>
+
+        <section class="reports-right card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title" id="selectedReportTitle">Monthly Accomplishment Report</h2>
+              <p class="text-muted">Configure parameters then generate a preview.</p>
+            </div>
+          </div>
+
+          <form id="reportForm" class="report-form">
+            <div class="form-row">
+              <label>Date range</label>
+              <div class="range-row">
+                <input type="date" id="dateFrom" />
+                <span class="range-sep">—</span>
+                <input type="date" id="dateTo" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label for="selectProjects">Project(s)</label>
+              <select id="selectProjects" multiple size="4"></select>
+              <div class="form-hint"><input type="checkbox" id="allProjects" /> <label for="allProjects">All Projects</label></div>
+            </div>
+
+            <div class="form-row">
+              <label for="reportOffice">Reporting Office</label>
+              <select id="reportOffice">
+                <option>Municipal Engineering Office</option>
+                <option>Planning Office</option>
+                <option>Budget Office</option>
+              </select>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn--primary" id="generateReport">Generate Report</button>
+              <button type="button" class="btn btn--ghost" id="downloadPdf">Download as PDF</button>
+              <button type="button" class="btn btn--ghost" id="printReport">Print</button>
+            </div>
+          </form>
+
+          <div id="reportPreview" class="report-preview hidden">
+            <h3>Preview</h3>
+            <div class="table-wrapper">
+              <table class="table" id="reportTable">
+                <thead id="reportTableHead"></thead>
+                <tbody id="reportTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Example Generated Report -->
+      <div class="card mt-6">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">📋 Example Generated Report</h3>
+            <p class="text-muted">Sample Monthly Accomplishment Report (May 2026) — Click "Generate Report" above to create custom reports</p>
+          </div>
+        </div>
+        <div class="example-report">
+          <div class="report-metadata">
+            <div class="report-meta-row">
+              <span class="report-meta-label">Report Type:</span>
+              <span class="report-meta-value">Monthly Accomplishment Report (DILG)</span>
+            </div>
+            <div class="report-meta-row">
+              <span class="report-meta-label">Period:</span>
+              <span class="report-meta-value">May 1 — May 31, 2026</span>
+            </div>
+            <div class="report-meta-row">
+              <span class="report-meta-label">Generated:</span>
+              <span class="report-meta-value">June 10, 2026</span>
+            </div>
+            <div class="report-meta-row">
+              <span class="report-meta-label">Reporting Office:</span>
+              <span class="report-meta-value">Municipal Engineering Office</span>
+            </div>
+          </div>
+          <div class="table-wrapper">
+            <table class="table example-report-table">
+              <thead>
+                <tr>
+                  <th>Project ID</th>
+                  <th>Project Title</th>
+                  <th>Contractor</th>
+                  <th>Type</th>
+                  <th>Physical %</th>
+                  <th>Financial %</th>
+                  <th>Target Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>BT-001</td>
+                  <td>Brgy. Dao Road Concreting Phase 2</td>
+                  <td>JRC Builders</td>
+                  <td>Road</td>
+                  <td><span class="progress-badge progress-badge--at-risk">62%</span></td>
+                  <td><span class="progress-badge progress-badge--at-risk">58%</span></td>
+                  <td>2026-08-15</td>
+                  <td><span class="badge badge--warning">At Risk</span></td>
+                </tr>
+                <tr>
+                  <td>BT-003</td>
+                  <td>Sta. Maria Barangay Health Center</td>
+                  <td>GreenBuild OPC</td>
+                  <td>Building</td>
+                  <td><span class="progress-badge progress-badge--success">81%</span></td>
+                  <td><span class="progress-badge progress-badge--success">78%</span></td>
+                  <td>2026-07-20</td>
+                  <td><span class="badge badge--success">On-Track</span></td>
+                </tr>
+                <tr>
+                  <td>BT-005</td>
+                  <td>Dao Elementary School 2-Room Building</td>
+                  <td>GreenBuild OPC</td>
+                  <td>Building</td>
+                  <td><span class="progress-badge progress-badge--success">90%</span></td>
+                  <td><span class="progress-badge progress-badge--success">88%</span></td>
+                  <td>2026-06-30</td>
+                  <td><span class="badge badge--success">On-Track</span></td>
+                </tr>
+                <tr>
+                  <td>BT-012</td>
+                  <td>Dao Port Road Extension</td>
+                  <td>Summit Infrastructure</td>
+                  <td>Road</td>
+                  <td><span class="progress-badge progress-badge--success">75%</span></td>
+                  <td><span class="progress-badge progress-badge--success">72%</span></td>
+                  <td>2026-07-30</td>
+                  <td><span class="badge badge--success">On-Track</span></td>
+                </tr>
+                <tr>
+                  <td>BT-002</td>
+                  <td>Tuburan Bridge Structural Repair</td>
+                  <td>Metro Const. Corp</td>
+                  <td>Bridge</td>
+                  <td><span class="progress-badge progress-badge--danger">38%</span></td>
+                  <td><span class="progress-badge progress-badge--danger">30%</span></td>
+                  <td>2026-09-30</td>
+                  <td><span class="badge badge--danger">Delayed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="report-summary">
+            <div class="summary-stat">
+              <div class="summary-stat__label">Total Projects Monitored</div>
+              <div class="summary-stat__value">24</div>
+            </div>
+            <div class="summary-stat">
+              <div class="summary-stat__label">On-Track</div>
+              <div class="summary-stat__value" style="color: var(--color-success);">11</div>
+            </div>
+            <div class="summary-stat">
+              <div class="summary-stat__label">At Risk</div>
+              <div class="summary-stat__value" style="color: var(--color-warning);">7</div>
+            </div>
+            <div class="summary-stat">
+              <div class="summary-stat__label">Delayed</div>
+              <div class="summary-stat__value" style="color: var(--color-danger);">6</div>
+            </div>
+            <div class="summary-stat">
+              <div class="summary-stat__label">Avg Physical Progress</div>
+              <div class="summary-stat__value">62%</div>
+            </div>
+            <div class="summary-stat">
+              <div class="summary-stat__label">Avg Financial Progress</div>
+              <div class="summary-stat__value">58%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="../js/reports.js"></script>
+</body>
+</html>

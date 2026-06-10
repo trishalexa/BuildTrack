@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BuildTrack — Login</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/login.css" />
+</head>
+<body class="login-page">
+
+  <div class="login-shell">
+
+    <!-- ── LEFT PANEL ── -->
+    <div class="login-left">
+      <div class="login-left__content">
+
+        <!-- Logo -->
+        <div class="login-logo">
+          <div class="login-logo__icon">🏗️</div>
+          <div>
+            <div class="login-logo__name">BuildTrack</div>
+            <div class="login-logo__sub">Infrastructure Monitoring System</div>
+          </div>
+        </div>
+
+        <!-- Headline -->
+        <div class="login-headline">
+          <h1>Smarter Infrastructure.<br/>Safer Communities.</h1>
+          <p>A centralized analytics and early warning platform for Philippine Local Government Units.</p>
+        </div>
+
+        <!-- Feature pills -->
+        <ul class="login-features">
+          <li class="login-feature">
+            <span class="login-feature__icon">📊</span>
+            <span>Real-time project analytics dashboard</span>
+          </li>
+          <li class="login-feature">
+            <span class="login-feature__icon">🚨</span>
+            <span>Automated early warning alerts</span>
+          </li>
+          <li class="login-feature">
+            <span class="login-feature__icon">📍</span>
+            <span>Geotagged progress tracking</span>
+          </li>
+          <li class="login-feature">
+            <span class="login-feature__icon">📄</span>
+            <span>Standardized DILG/COA report generation</span>
+          </li>
+        </ul>
+
+        <!-- Stats row -->
+        <div class="login-stats">
+          <div class="login-stat">
+            <span class="login-stat__value">24</span>
+            <span class="login-stat__label">Active Projects</span>
+          </div>
+          <div class="login-stat">
+            <span class="login-stat__value">₱60M</span>
+            <span class="login-stat__label">Budget Tracked</span>
+          </div>
+          <div class="login-stat">
+            <span class="login-stat__value">7</span>
+            <span class="login-stat__label">Active Alerts</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- LGU branding footer -->
+      <div class="login-left__footer">
+        <span>Pagadian City LGU</span>
+        <span class="sep">·</span>
+        <span>BSCS Capstone Project 2025–2026</span>
+      </div>
+    </div>
+
+    <!-- ── RIGHT PANEL (Login Form) ── -->
+    <div class="login-right">
+      <div class="login-form-card">
+
+        <div class="login-form-header">
+          <h2>Sign in to BuildTrack</h2>
+          <p>Enter your LGU credentials to continue</p>
+        </div>
+
+        <form id="loginForm" class="login-form" novalidate>
+
+          <!-- Role selector (informational only — role is set by credentials) -->
+          <div class="form-group">
+            <label class="form-label" for="role">Sign in as <span class="form-hint" style="font-weight:400;">(optional)</span></label>
+            <select class="form-select" id="role" name="role">
+              <option value="">Select your role</option>
+              <option value="engineer">LGU Project Engineer</option>
+              <option value="executive">Local Chief Executive</option>
+              <option value="planning">Planning & Development Officer</option>
+              <option value="admin">System Administrator</option>
+            </select>
+          </div>
+
+          <!-- Username -->
+          <div class="form-group">
+            <label class="form-label" for="username">Username</label>
+            <div class="input-icon-wrap">
+              <span class="input-icon">👤</span>
+              <input
+                class="form-input"
+                type="text"
+                id="username"
+                name="username"
+                placeholder="e.g. jdelacruz"
+                autocomplete="username"
+              />
+            </div>
+            <span class="form-error hidden" id="usernameError">Username is required.</span>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label class="form-label" for="password">
+              Password
+              <a href="#" class="forgot-link" tabindex="-1">Forgot password?</a>
+            </label>
+            <div class="input-icon-wrap">
+              <span class="input-icon">🔒</span>
+              <input
+                class="form-input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+              />
+              <button type="button" class="toggle-password" id="togglePassword" aria-label="Show password">
+                👁️
+              </button>
+            </div>
+            <span class="form-error hidden" id="passwordError">Password is required.</span>
+          </div>
+
+          <!-- Remember me -->
+          <div class="login-remember">
+            <label class="checkbox-label">
+              <input type="checkbox" id="remember" name="remember" />
+              <span class="checkbox-custom"></span>
+              Keep me signed in
+            </label>
+          </div>
+
+          <!-- Error alert (wrong credentials) -->
+          <div class="login-alert hidden" id="loginAlert">
+            <span>⚠️</span>
+            <span id="loginAlertMsg">Invalid username or password. Please try again.</span>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn--primary w-full login-submit" id="submitBtn">
+            <span id="submitText">Sign In</span>
+            <span id="submitSpinner" class="spinner hidden"></span>
+          </button>
+
+        </form>
+
+        <!-- Divider -->
+        <div class="login-divider">
+          <span>or</span>
+        </div>
+
+        <!-- Public portal link -->
+        <a href="../pages/public-portal.html" class="btn btn--ghost w-full">
+          🌐 View Public Transparency Portal
+        </a>
+
+        <!-- Demo credentials note -->
+        <div class="login-demo-note">
+          <strong>Demo accounts:</strong><br/>
+          <code>demo</code> / <code>demo123</code> → Engineer &nbsp;|&nbsp;
+          <code>mayor</code> / <code>lgu2026</code> → Executive<br/>
+          <code>planning</code> / <code>lgu2026</code> → Planning Officer &nbsp;|&nbsp;
+          <code>admin</code> / <code>admin123</code> → Admin
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="login-right__footer">
+        <span>© 2026 BuildTrack &nbsp;·&nbsp; WMSU-PC College of Computing Studies</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BuildTrack — Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/sidebar.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ══════════════════ SIDEBAR ══════════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <a href="../pages/dashboard.html" class="sidebar__logo">
+      <div class="sidebar__logo-icon">🏗️</div>
+      <div class="sidebar__logo-text">
+        <span class="sidebar__logo-name">BuildTrack</span>
+        <span class="sidebar__logo-sub">LGU Monitoring System</span>
+      </div>
+    </a>
+
+    <nav class="sidebar__nav">
+      <div class="sidebar__section-label">Main</div>
+
+      <a href="../pages/dashboard.html" class="sidebar__item" data-page="../pages/dashboard.html">
+        <span class="sidebar__item-icon">🏠</span>
+        <span class="sidebar__item-label">Dashboard</span>
+      </a>
+      <a href="project-list.html" class="sidebar__item" data-page="project-list.html">
+        <span class="sidebar__item-icon">📋</span>
+        <span class="sidebar__item-label">Projects</span>
+      </a>
+      <a href="early-warning.html" class="sidebar__item" data-page="early-warning.html">
+        <span class="sidebar__item-icon">🚨</span>
+        <span class="sidebar__item-label">Early Warnings</span>
+        <span class="sidebar__badge">7</span>
+      </a>
+      <a href="map-view.html" class="sidebar__item" data-page="map-view.html">
+        <span class="sidebar__item-icon">📍</span>
+        <span class="sidebar__item-label">Map View</span>
+      </a>
+      <a href="reports.html" class="sidebar__item" data-page="reports.html">
+        <span class="sidebar__item-icon">📊</span>
+        <span class="sidebar__item-label">Reports & Analytics</span>
+      </a>
+
+      <!-- Admin only section -->
+      <div id="sidebarAdminSection">
+        <div class="sidebar__section-label" style="margin-top:var(--space-4);">Admin</div>
+        <a href="user-management.html" class="sidebar__item" data-page="user-management.html">
+          <span class="sidebar__item-icon">👤</span>
+          <span class="sidebar__item-label">User Management</span>
+        </a>
+      </div>
+
+      <div class="sidebar__section-label" style="margin-top:var(--space-4);">Public</div>
+      <a href="public-portal.html" class="sidebar__item" target="_blank">
+        <span class="sidebar__item-icon">🌐</span>
+        <span class="sidebar__item-label">Public Portal</span>
+      </a>
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <div class="sidebar__avatar" id="sidebarAvatar">D</div>
+        <div class="sidebar__user-info">
+          <div class="sidebar__user-name" id="sidebarUserName">Demo User</div>
+          <div class="sidebar__user-role" id="sidebarUserRole">LGU Engineer</div>
+        </div>
+        <a href="../buildtrack/index.html" class="sidebar__logout" title="Sign out">⏏️</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ══════════════════ MAIN CONTENT ══════════════════ -->
+  <div class="main-content">
+
+    <!-- Top Navbar -->
+    <header class="topnav">
+      <button class="topnav__menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      <div class="topnav__search">
+        <span class="topnav__search-icon">🔍</span>
+        <input type="text" placeholder="Search projects, alerts…" id="globalSearch" />
+      </div>
+      <div class="topnav__actions">
+        <!-- Role badge — updates via JS -->
+        <span class="role-badge" id="topnavRoleBadge"></span>
+        <div class="topnav__notif" id="notifBell" title="Active alerts">
+          🔔<span class="topnav__notif-dot"></span>
+        </div>
+        <div class="topnav__date" id="topnavDate"></div>
+      </div>
+    </header>
+
+    <main class="page-body">
+
+      <!-- ── EXECUTIVE BANNER (only visible to executive role) ── -->
+      <div class="exec-banner mb-6" id="execBanner">
+        <div class="exec-banner__icon">👔</div>
+        <div class="exec-banner__body">
+          <div class="exec-banner__title"></div>
+          <div class="exec-banner__sub">
+            
+          </div>
+        </div>
+        <div class="exec-banner__stats" id="execBannerStats">
+          <!-- Populated by JS for executive -->
+        </div>
+      </div>
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 id="dashPageTitle">Dashboard</h1>
+            <p id="dashPageSub">Overview of all infrastructure projects — Pagadian City LGU</p>
+          </div>
+          <div class="flex gap-3">
+            <button class="btn btn--ghost btn--sm" id="refreshBtn">🔄 Refresh</button>
+            <!-- Hidden for executive role -->
+            <a href="project-list.html" class="btn btn--primary btn--sm role-add-project" id="addProjectBtn">
+  + Add Project
+</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── KPI Cards ── -->
+      <div class="grid-4 mb-6 role-hide-engineer">
+        <div class="stat-card">
+          <div class="stat-card__icon stat-card__icon--blue">📋</div>
+          <div class="stat-card__body">
+            <div class="stat-card__value" id="kpiTotal">24</div>
+            <div class="stat-card__label">Total Active Projects</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__icon stat-card__icon--green">✅</div>
+          <div class="stat-card__body">
+            <div class="stat-card__value" id="kpiOnTrack">14</div>
+            <div class="stat-card__label">On-Track</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__icon stat-card__icon--yellow">⚠️</div>
+          <div class="stat-card__body">
+            <div class="stat-card__value" id="kpiAtRisk">6</div>
+            <div class="stat-card__label">At Risk</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__icon stat-card__icon--red">🚨</div>
+          <div class="stat-card__body">
+            <div class="stat-card__value" id="kpiDelayed">4</div>
+            <div class="stat-card__label">Delayed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Budget KPI Banner ── -->
+      <div class="budget-kpi-row mb-6 role-hide-engineer">
+        <div class="budget-kpi-card">
+          <div class="budget-kpi-card__label">Total Budget Allocated</div>
+          <div class="budget-kpi-card__value">₱60,450,000</div>
+        </div>
+        <div class="budget-kpi-divider"></div>
+        <div class="budget-kpi-card">
+          <div class="budget-kpi-card__label">Total Amount Utilized</div>
+          <div class="budget-kpi-card__value text-success">₱42,318,500</div>
+        </div>
+        <div class="budget-kpi-divider"></div>
+        <div class="budget-kpi-card">
+          <div class="budget-kpi-card__label">Overall Utilization Rate</div>
+          <div class="budget-kpi-card__value">
+            70.0%
+            <span class="budget-kpi-card__bar">
+              <span class="budget-kpi-card__fill" style="width:70%"></span>
+            </span>
+          </div>
+        </div>
+        <div class="budget-kpi-divider"></div>
+        <div class="budget-kpi-card">
+          <div class="budget-kpi-card__label">Active Early Warnings</div>
+          <div class="budget-kpi-card__value text-danger">7 Alerts</div>
+        </div>
+      </div>
+
+      <!-- ── Charts Row ── -->
+      <div class="dashboard-charts-row mb-6 role-hide-engineer">
+        <div class="card chart-card chart-card--large">
+          <div class="card-header">
+            <span class="card-title">Physical vs. Financial Accomplishment (S-Curve)</span>
+            <select class="chart-filter role-hide-executive" id="scurveFilter">
+              <option value="all">All Projects</option>
+              <option value="road">Road Projects</option>
+              <option value="bridge">Bridge Projects</option>
+              <option value="building">Building Projects</option>
+            </select>
+          </div>
+          <div class="chart-wrap"><canvas id="scurveChart"></canvas></div>
+        </div>
+        <div class="card chart-card chart-card--small">
+          <div class="card-header"><span class="card-title">Project Status</span></div>
+          <div class="chart-wrap chart-wrap--donut"><canvas id="statusChart"></canvas></div>
+          <div class="donut-legend" id="donutLegend"></div>
+        </div>
+      </div>
+
+      <!-- ── Bottom Row ── -->
+      <div class="dashboard-bottom-row role-hide-engineer">
+        <div class="card chart-card">
+          <div class="card-header"><span class="card-title">Budget Utilization by Project Type</span></div>
+          <div class="chart-wrap"><canvas id="budgetChart"></canvas></div>
+        </div>
+        <!-- Alerts feed: critical-only for executive, all for others -->
+        <div class="card alerts-feed">
+          <div class="card-header">
+            <span class="card-title">🚨 Recent Alerts</span>
+            <a href="early-warning.html" class="btn btn--ghost btn--sm">View All</a>
+          </div>
+          <div class="alerts-list" id="alertsList"></div>
+        </div>
+      </div>
+
+      <!-- ── Recent Projects Table (hidden for executive) ── -->
+      <div class="card mt-6 role-hide-executive role-hide-engineer">
+        <div class="card-header">
+          <span class="card-title">Recent Project Activity</span>
+          <a href="project-list.html" class="btn btn--ghost btn--sm">View All Projects →</a>
+        </div>
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Type</th>
+                <th>Contractor</th>
+                <th>Physical Progress</th>
+                <th>Target Date</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="recentProjectsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── Executive: Top Delayed Projects (only for executive) ── -->
+      <div class="card mt-6 role-only-executive">
+        <div class="card-header">
+          <span class="card-title">⚠️ Projects Needing Attention</span>
+          <a href="project-list.html" class="btn btn--ghost btn--sm">View All →</a>
+        </div>
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Location</th>
+                <th>Progress</th>
+                <th>Days Delayed</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="execAtRiskBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── Engineer: My Assigned Projects (only for engineer) ── -->
+      <div class="card mt-6 role-only-engineer">
+        <div class="card-header">
+          <span class="card-title">📋 My Assigned Projects</span>
+          <a href="project-list.html" class="btn btn--ghost btn--sm">View All →</a>
+        </div>
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Physical Progress</th>
+                <th>Financial Progress</th>
+                <th>Target Date</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="engineerProjectsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="../js/global.js"></script>
+<script src="../js/dashboard.js"></script>
+</body>
+</html>

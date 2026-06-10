@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BuildTrack — Early Warning Alerts</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/sidebar.css" />
+  <link rel="stylesheet" href="../css/early-warning.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <a href="../pages/dashboard.html" class="sidebar__logo">
+      <div class="sidebar__logo-icon">&#x1F3D7;</div>
+      <div class="sidebar__logo-text">
+        <span class="sidebar__logo-name">BuildTrack</span>
+        <span class="sidebar__logo-sub">LGU Monitoring System</span>
+      </div>
+    </a>
+    <nav class="sidebar__nav">
+      <div class="sidebar__section-label">Main</div>
+      <a href="../pages/dashboard.html" class="sidebar__item" data-page="../pages/dashboard.html">
+        <span class="sidebar__item-icon">&#x1F3E0;</span>
+        <span class="sidebar__item-label">Dashboard</span>
+      </a>
+      <a href="project-list.html" class="sidebar__item" data-page="project-list.html">
+        <span class="sidebar__item-icon">&#x1F4CB;</span>
+        <span class="sidebar__item-label">Projects</span>
+      </a>
+      <a href="early-warning.html" class="sidebar__item is-active" data-page="early-warning.html">
+        <span class="sidebar__item-icon">&#x1F6A8;</span>
+        <span class="sidebar__item-label">Early Warnings</span>
+        <span class="sidebar__badge">8</span>
+      </a>
+      <a href="map-view.html" class="sidebar__item" data-page="map-view.html">
+        <span class="sidebar__item-icon">&#x1F4CD;</span>
+        <span class="sidebar__item-label">Map View</span>
+      </a>
+      <a href="reports.html" class="sidebar__item" data-page="reports.html">
+        <span class="sidebar__item-icon">&#x1F4CA;</span>
+        <span class="sidebar__item-label">Reports & Analytics</span>
+      </a>
+      <div class="sidebar__section-label" style="margin-top:var(--space-4);">Admin</div>
+      <a href="user-management.html" class="sidebar__item" data-page="user-management.html">
+        <span class="sidebar__item-icon">&#x1F464;</span>
+        <span class="sidebar__item-label">User Management</span>
+      </a>
+      <div class="sidebar__section-label" style="margin-top:var(--space-4);">Public</div>
+      <a href="public-portal.html" class="sidebar__item" target="_blank">
+        <span class="sidebar__item-icon">&#x1F310;</span>
+        <span class="sidebar__item-label">Public Portal</span>
+      </a>
+    </nav>
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <div class="sidebar__avatar" id="sidebarAvatar">D</div>
+        <div class="sidebar__user-info">
+          <div class="sidebar__user-name" id="sidebarUserName">Demo User</div>
+          <div class="sidebar__user-role" id="sidebarUserRole">LGU Engineer</div>
+        </div>
+        <a href="../buildtrack/index.html" class="sidebar__logout" title="Sign out">&#x23CF;</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <header class="topnav">
+      <button class="topnav__menu-btn" id="menuBtn" aria-label="Open menu">&#x2630;</button>
+      <div class="topnav__search">
+        <span class="topnav__search-icon">&#x1F50D;</span>
+        <input type="text" placeholder="Search alerts…" id="globalSearch" />
+      </div>
+      <div class="topnav__actions">
+        <a href="project-list.html" class="topnav__notif" title="View projects">
+          &#x1F514;<span class="topnav__notif-dot"></span>
+        </a>
+      </div>
+    </header>
+
+    <main class="page-body">
+      <div class="page-header">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1>Early Warning Alerts</h1>
+            <p>Monitor incoming alerts, assess severity, and assign response actions quickly.</p>
+          </div>
+          <button class="btn btn--primary" id="refreshAlertsBtn">Refresh Alerts</button>
+        </div>
+      </div>
+
+      <div class="ew-summary-grid mb-6">
+        <article class="stat-card">
+          <div class="stat-card__icon stat-card__icon--blue">&#x1F6A8;</div>
+          <div class="stat-card__body">
+            <div class="stat-card__value" id="alertTotal">8</div>
+            <div class="stat-card__label">Active Alerts</div>
+          </div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-card__icon stat-card__icon--red">&#x1F534;</div>
+          <div class="stat-card__body">
+            <div class="stat-card__value" id="alertCritical">3</div>
+            <div class="stat-card__label">Critical Alerts</div>
+          </div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-card__icon stat-card__icon--yellow">&#x1F7E1;</div>
+          <div class="stat-card__body">
+            <div class="stat-card__value" id="alertWarning">4</div>
+            <div class="stat-card__label">Warning Alerts</div>
+          </div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-card__icon stat-card__icon--green">&#x2705;</div>
+          <div class="stat-card__body">
+            <div class="stat-card__value" id="alertResolved">1</div>
+            <div class="stat-card__label">Resolved Alerts</div>
+          </div>
+        </article>
+      </div>
+
+      <section class="ew-page-grid">
+        <div class="ew-table-panel card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Alert Inbox</h2>
+              <p class="text-muted">Filter alerts by status, severity, or project to identify priorities.</p>
+            </div>
+            <div class="ew-filter-actions">
+              <div class="ew-filter-group">
+                <label class="filter-label" for="alertSearch">Search</label>
+                <input id="alertSearch" class="filter-input" type="search" placeholder="Search by project or alert type" />
+              </div>
+              <div class="ew-filter-group">
+                <label class="filter-label" for="filterSeverity">Severity</label>
+                <select id="filterSeverity" class="filter-select">
+                  <option value="">All severities</option>
+                  <option value="Critical">Critical</option>
+                  <option value="Warning">Warning</option>
+                  <option value="Monitor">Monitor</option>
+                </select>
+              </div>
+              <div class="ew-filter-group">
+                <label class="filter-label" for="filterStatus">Status</label>
+                <select id="filterStatus" class="filter-select">
+                  <option value="">All statuses</option>
+                  <option value="Generated">Generated</option>
+                  <option value="Acknowledged">Acknowledged</option>
+                  <option value="Action Taken">Action Taken</option>
+                  <option value="For Review">For Review</option>
+                  <option value="Resolved">Resolved</option>
+                  <option value="Endorsed to Executive">Endorsed to Executive</option>
+                </select>
+              </div>
+              <button class="btn btn--ghost btn--sm" id="clearAlertFilters">Reset</button>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="table" id="alertsTable">
+              <thead>
+                <tr>
+                  <th>Alert ID</th>
+                  <th>Project Name</th>
+                  <th>Alert Type</th>
+                  <th>Severity</th>
+                  <th>Date Generated</th>
+                  <th>Days to Impact</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="alertsTableBody">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <aside class="ew-detail-panel card" id="alertDetailPanel">
+          <div class="ew-panel-header">
+            <div>
+              <h2 class="card-title" id="alertDetailTitle">Select an alert</h2>
+              <p class="text-muted">Alert details will appear here when you select a row.</p>
+            </div>
+          </div>
+          <div class="ew-detail-content">
+            <div class="ew-detail-section">
+              <h3>Trigger Variables</h3>
+              <p id="alertDetailVars">No alert selected.</p>
+            </div>
+              <div class="ew-detail-section">
+              <h3>Status</h3>
+              <p id="alertDetailStatus">No alert selected.</p>
+            </div>
+            <div class="ew-detail-section">
+              <h3>Recommended Action</h3>
+              <p id="alertDetailAction">Choose an alert to see recommended next steps.</p>
+            </div>
+            <div class="ew-detail-section role-only-engineer">
+              <h3>Action Log</h3>
+              <textarea id="alertActionLog" class="form-input" rows="3" placeholder="Describe the action taken (e.g. contacted contractor, ordered materials)"></textarea>
+              <p class="text-muted">Log what you did before marking this alert for review.</p>
+            </div>
+            <div class="ew-detail-section role-only-planning role-only-admin">
+              <h3>Review Notes</h3>
+              <textarea id="alertReviewNote" class="form-input" rows="3" placeholder="Summarize verification details and endorsement messages."></textarea>
+              <p class="text-muted">Planning Officer verifies the response and may endorse to the executive.</p>
+            </div>
+            <div class="ew-detail-section role-only-executive">
+              <h3>Executive Response</h3>
+              <p class="text-muted mb-4">When a critical alert is escalated to the executive level, you can:</p>
+              <div class="executive-response-options">
+                <div class="response-option">
+                  <h4>📝 Note It</h4>
+                  <p>"I have been informed of this issue" — Simple acknowledgment at executive level</p>
+                  <button class="btn btn--secondary" id="noteItBtn">Mark as Noted</button>
+                </div>
+                <div class="response-option">
+                  <h4>⚡ Direct Action</h4>
+                  <p>Add a comment or instruction for immediate action</p>
+                  <textarea id="executiveDirectionNote" class="form-input" rows="2" placeholder="e.g., 'Coordinate with contractor immediately' or 'Prepare incident report'"></textarea>
+                  <button class="btn btn--primary" id="directActionBtn">Send Directive</button>
+                </div>
+              </div>
+            </div>
+            <div class="ew-detail-actions">
+              <button class="btn btn--secondary role-only-engineer role-only-planning role-only-admin" id="acknowledgeAlertBtn">Acknowledge</button>
+              <button class="btn btn--secondary role-only-engineer" id="actionTakenBtn">Action Taken</button>
+              <button class="btn btn--danger role-only-engineer" id="markReviewBtn">Mark for Review</button>
+              <button class="btn btn--primary role-only-planning role-only-admin" id="verifyResolveBtn">Verify & Resolve</button>
+              <button class="btn btn--warning role-only-planning role-only-admin" id="endorseExecBtn">Endorse to Executive</button>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="../js/global.js"></script>
+<script src="../js/early-warning.js"></script>
+</body>
+</html>

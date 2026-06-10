@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BuildTrack — Public Transparency Portal</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/public-portal.css" />
+</head>
+<body>
+  <div class="public-portal-shell">
+    <header class="portal-header">
+      <div class="portal-brand">
+        <div class="portal-brand__logo">🏗️</div>
+        <div>
+          <p class="portal-brand__eyebrow">Pagadian City Government</p>
+          <h1 class="portal-brand__title">BuildTrack Public Transparency Portal</h1>
+        </div>
+      </div>
+      <nav class="portal-nav">
+        <a href="dashboard.html">Internal Dashboard</a>
+        <a href="project-list.html">Projects</a>
+        <a href="reports.html">Reports</a>
+      </nav>
+    </header>
+
+    <main class="portal-main">
+      <section class="portal-hero">
+        <div class="hero-copy">
+          <span class="hero-tag">Public transparency</span>
+          <h2>Pagadian City Infrastructure Projects — Real-Time Updates</h2>
+          <p>Track the latest progress across road, bridge, and public infrastructure projects in your barangay. This portal is designed for citizens to stay informed without login or technical details.</p>
+        </div>
+      </section>
+
+      <section class="portal-controls">
+        <div class="filter-card">
+          <label class="filter-label" for="searchInput">Search by barangay or project</label>
+          <input id="searchInput" class="filter-input" type="search" placeholder="Search project or barangay…" />
+        </div>
+        <div class="filter-card filter-card--split">
+          <div>
+            <label class="filter-label" for="typeFilter">Project type</label>
+            <select id="typeFilter" class="filter-select">
+              <option value="">All types</option>
+              <option value="Road">Road</option>
+              <option value="Bridge">Bridge</option>
+              <option value="Drainage">Drainage</option>
+              <option value="Facility">Facility</option>
+            </select>
+          </div>
+          <div>
+            <label class="filter-label" for="statusFilter">Status</label>
+            <select id="statusFilter" class="filter-select">
+              <option value="">All statuses</option>
+              <option value="Ongoing">Ongoing</option>
+              <option value="Completed">Completed</option>
+              <option value="Delayed">Delayed</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="portal-summary" id="summarySection">
+        <div class="summary-card">
+          <p class="summary-card__label">Featured projects</p>
+          <p class="summary-card__value" id="projectCount">0 projects</p>
+        </div>
+        <div class="summary-card">
+          <p class="summary-card__label">Currently ongoing</p>
+          <p class="summary-card__value" id="ongoingCount">0</p>
+        </div>
+        <div class="summary-card">
+          <p class="summary-card__label">Completed this quarter</p>
+          <p class="summary-card__value" id="completedCount">0</p>
+        </div>
+      </section>
+
+      <section class="project-grid" id="projectGrid"></section>
+    </main>
+  </div>
+
+  <script src="../js/public-portal.js"></script>
+</body>
+</html>
